@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 
 app.get('/qa/questions', function (req, res) {
-    console.log('*** question requested ***')
+    // console.log('*** question requested ***')
 
     db
         .collection('questions')
@@ -27,8 +27,8 @@ app.get('/qa/questions', function (req, res) {
             if (err) {
                 PromiseRejectionEvent(console.log('***error getting questions***'))
             } else {
-                console.log('***success!!***')
-                res.send(results)
+                // console.log('***success!!***')
+                res.status(200).send('OK');
             }
         })
 })
@@ -38,14 +38,14 @@ app.get('/qa/questions/:question_id/answers', function (req, res) {
 
     db
         .collection('answers')
-        .aggregate(getAnswers(62))
+        .aggregate(getAnswers(parseInt(req.params.question_id)))
         .toArray((err, results) => {
-            console.log(results);
+            // console.log(results);
             if (err) {
                 PromiseRejectionEvent(console.log('***error getting questions***'))
             } else {
                 console.log('***success!!***')
-                res.send(results)
+                res.status(200).send('OK');
             }
         })
 })
@@ -54,7 +54,7 @@ app.post('/qa/questions/', (req, res) => {
     console.log('*** post question requested ***')
     //console.log(req.body);
     addQuestion(req.body);
-    res.send('201 CREATED');
+    res.status(201).send('CREATED');
 
 })
 
@@ -62,48 +62,45 @@ app.post('/qa/questions/:question_id/answers', (req, res) => {
     console.log('*** post answer to question requested ***')
     //console.log(req.body);
     //console.log(req.params, 'here');
-    addAnswer(req.body, req.params.question_id);
-    res.send('201 CREATED');
-
-    // db
-    //   collection('questions')
+    addAnswer(req.body, parseInt(req.params.question_id));
+    res.status(201).send('CREATED');
 
 })
 
-app.post('/qa/questions/:question_id/helpful', (req, res) => {
+app.put('/qa/questions/:question_id/helpful', (req, res) => {
     console.log('*** mark a question as helpful ***')
 
     let id = parseInt(req.params.question_id)
 
     markHelpful(id);
-    res.send('204 NO CONTENT');
+    res.status(204).send('NO CONTENT');
 })
 
-app.post('/qa/questions/:question_id/report', (req, res) => {
+app.put('/qa/questions/:question_id/report', (req, res) => {
     console.log('*** report a question ***')
 
     let id = parseInt(req.params.question_id)
 
     reportQuestion(id);
-    res.send('204 NO CONTENT');
+    res.status(204).send('NO CONTENT');
 })
 
-app.post('/qa/answers/:answer_id/helpful', (req, res) => {
+app.put('/qa/answers/:answer_id/helpful', (req, res) => {
     console.log('*** mark an answer as helpful ***')
 
     let id = parseInt(req.params.answer_id)
 
     markAnswerHelpful(id);
-    res.send('204 NO CONTENT');
+    res.status(204).send('NO CONTENT');
 })
 
-app.post('/qa/answers/:answer_id/report', (req, res) => {
+app.put('/qa/answers/:answer_id/report', (req, res) => {
     console.log('*** report an answer ***')
 
     let id = parseInt(req.params.answer_id)
 
     reportAnswer(id);
-    res.send('204 NO CONTENT');
+    res.status(204).send('NO CONTENT');
 })
 
 app.listen(PORT, () => {

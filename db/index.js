@@ -53,33 +53,35 @@ let photo = mongoose.model('photo', photoSchema)
 
 let addQuestion = async (data) => {
     // console.log(data)
-    let id = await answer.findOne().sort({ 'question_id': -1 })
+    let id = await question.findOne().sort({ 'question_id': -1 })
+    id = id.question_id
+    id = id + 1
 
     let question_id = id
     let product_id = data.product_id
     let question_body = data.body
-    let asker_name = data.asker_name
-    let asker_email = data.asker_email
+    let asker_name = data.name
+    let asker_email = data.email
     let reported = false
     let helpful = 0
 
-    var submittedQuestion = new question({ question_id, product_id, body, asker_name, asker_email, reported, helpful })
-    console.log(submittedQuestion)
-    // submittedQuestion.save((err, doc) => {
-    //     if (err) {
-    //         return console.log(err)
-    //     }
-    //     console.log(submittedQuestion.asker_name + '\'s question was saved to the DB!!' )
-    // })
+    var submittedQuestion = new question({ question_id, product_id, question_body, asker_name, asker_email, reported, helpful })
+    // console.log(submittedQuestion)
+    submittedQuestion.save((err, doc) => {
+        if (err) {
+            return console.log(err)
+        }
+        console.log(submittedQuestion.asker_name + '\'s question was saved to the DB!!' )
+    })
 }
 
 let addAnswer = async (data, id) => {
-    console.log(data, id, 'hereeee')
+    let newID = await answer.findOne().sort({ 'answer_id': -1 })
+    newID = newID.answer_id
+    newID = newID + 1
 
-    let test = await answer.findOne().sort({ 'answer_id': -1 })
-
-    let answer_id = test.answer_id
-    let question_id = data.question_id
+    let answer_id = newID
+    let question_id = id
     let body = data.body
     let answerer_name = data.name
     let answerer_email = data.email
@@ -88,13 +90,13 @@ let addAnswer = async (data, id) => {
     let photos = data.photos
 
     var submittedAnswer = new answer({ answer_id, question_id, body, answerer_name, answerer_email, reported, helpful, photos })
-    console.log(submittedAnswer)
-        // submittedAnswer.save((err, doc) => {
-    //     if (err) {
-    //         return console.log(err)
-    //     }
-    //     console.log(submittedQuestion.asker_name + '\'s question was saved to the DB!!' )
-    // })
+    // console.log(submittedAnswer)
+        submittedAnswer.save((err, doc) => {
+        if (err) {
+            return console.log(err)
+        }
+        console.log(submittedAnswer.answerer_name + '\'s answer was saved to the DB!!' )
+    })
 }
 
 let markHelpful = async (id) => {
@@ -103,8 +105,6 @@ let markHelpful = async (id) => {
     const update = { $inc: { "helpful": 1 } }
 
     let helpful = await question.findOneAndUpdate(filter, update);
-
-    let check = await question.findOne(filter);
 
     console.log(helpful);
 }

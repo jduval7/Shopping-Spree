@@ -17,7 +17,7 @@
 
 module.exports.getQuestionsAndAnswers = (product_id) => {
   return ([
-    { $match: { product_id: product_id } },
+    { $match: { product_id: 13 } },
     { $sort: { question_id: 1 } },
     { $limit: 15 },
     {

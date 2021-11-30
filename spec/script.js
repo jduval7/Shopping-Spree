@@ -30,23 +30,18 @@ export default function () {
             'Content-Type': 'application/json',
         }
     };
-    const questionsGet = http.get('http://localhost:3000/qa/questions?product_id=13')
-    check(questionsGet, {
-        'status 200': r => r.status === 200,
-        'transaction time < 200ms': r => r.timings.duration < 200
-    });
-    // group('check the GET QUESTIONS request', () => {
-    //     const questionsGet = http.get('http://localhost:3000/qa/questions?product_id=13')
-    //     check(questionsGet, {
-    //         'status 200': r => r.status === 200,
-    //         'transaction time < 200ms': r => r.timings.duration < 200
-    //     });
-    // })
+    group('check the GET QUESTIONS request', () => {
+        const questionsGet = http.get('http://localhost:3000/qa/questions?product_id=13')
+        check(questionsGet, {
+            'status 200': r => r.status === 200,
+            'transaction time < 400ms': r => r.timings.duration < 400
+        });
+    })
     // group('check the GET ANSWERS request', () => {
     //     const answersGet = http.get('http://localhost:3000/qa/questions?product_id=13/answers')
     //     check(answersGet, {
     //         'status 200': r => r.status === 200,
-    //         'transaction time < 200ms': r => r.timings.duration < 200
+    //         'transaction time < 400ms': r => r.timings.duration < 400
     //     });
     // })
 

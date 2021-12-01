@@ -18,7 +18,20 @@ app.use(bodyParser.json());
 
 app.get('/qa/questions', async function (req, res) {
     // console.log('*** question requested ***')
-    const db = await mongoose.connection
+    // const db = await mongoose.connection
+    //     db.collection('questions').aggregate(getQuestionsAndAnswers(parseInt(req.query.question_id)))
+    //     .toArray((err, results) => {
+    //         //console.log(results);
+    //         if (err) {
+    //             PromiseRejectionEvent(console.log('***error getting questions***'))
+    //         } else {
+    //             // console.log('***success!!***')
+    //             res.status(200).send(results);
+    //         }
+    //     })
+
+    try {
+        const db = await mongoose.connection
         db.collection('questions').aggregate(getQuestionsAndAnswers(parseInt(req.query.question_id)))
         .toArray((err, results) => {
             //console.log(results);
@@ -29,6 +42,10 @@ app.get('/qa/questions', async function (req, res) {
                 res.status(200).send(results);
             }
         })
+    } catch (err) {
+        console.log(err);
+    }
+
 })
 
 app.get('/qa/questions/:question_id/answers', async function (req, res) {

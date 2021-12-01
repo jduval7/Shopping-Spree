@@ -32,7 +32,7 @@ app.get('/qa/questions', async function (req, res) {
 
     try {
         const db = await mongoose.connection
-        db.collection('questions').aggregate(getQuestionsAndAnswers(parseInt(req.query.question_id)))
+        db.collection('questions').aggregate(getQuestionsAndAnswers(parseInt(req.query.question_id)).next())
         .toArray((err, results) => {
             //console.log(results);
             if (err) {

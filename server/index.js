@@ -19,19 +19,25 @@ app.use(bodyParser.json());
 app.get('/qa/questions', async function (req, res) {
 
     console.log('*** question requested ***')
-    const db = await mongoose.connection
-    const result = await getQuestionsAndAnswers(parseInt(req.query.question_id))
-    const aggregation = await db.collection('questions').aggregate(result)
-        aggregation
-        .toArray((err, results) => {
-            //console.log(results);
-            if (err) {
-                PromiseRejectionEvent(console.log('***error getting questions***'))
-            } else {
-                // console.log('***success!!***')
-                res.status(200).send(results);
-            }
-        })
+    try{
+        const db = await mongoose.connection
+        const result = await getQuestionsAndAnswers(parseInt(req.query.question_id))
+        const collection = await db.collection('questions')
+        const aggregation = await collection.aggregate(result)
+            aggregation
+            .toArray((err, results) => {
+                //console.log(results);
+                if (err) {
+                    PromiseRejectionEvent(console.log('***error getting questions***'))
+                } else {
+                    // console.log('***success!!***')
+                    res.status(200).send(results);
+                }
+            })
+    } catch(err) {
+        console.log(err)
+    }
+    
 })
 
 app.get('/qa/questions/:question_id/answers', async function (req, res) {

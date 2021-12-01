@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/sdc', {
+  await mongoose.connect('mongodb://sdc-mongo:27017/questions-answers', {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
@@ -21,7 +21,7 @@ db.once("open", function () {
 const questionSchema = new Schema({
     question_id: Number,
     product_id: Number,
-    question_body: String,
+    body: String,
     question_date: { type: Date, default: Date.now },
     asker_name: String,
     asker_email: String,
@@ -59,13 +59,13 @@ let addQuestion = async (data) => {
 
     let question_id = id
     let product_id = data.product_id
-    let question_body = data.body
+    let body = data.body
     let asker_name = data.name
     let asker_email = data.email
     let reported = false
     let helpful = 0
 
-    var submittedQuestion = new question({ question_id, product_id, question_body, asker_name, asker_email, reported, helpful })
+    var submittedQuestion = new question({ question_id, product_id, body, asker_name, asker_email, reported, helpful })
     // console.log(submittedQuestion)
     submittedQuestion.save((err, doc) => {
         if (err) {

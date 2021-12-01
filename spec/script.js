@@ -2,7 +2,7 @@ import http from 'k6/http';
 import { sleep, check, group } from 'k6';
 
 export const options = {
-    vus: 12,
+    vus: 100,
     duration: '30s'
 }
 
@@ -34,16 +34,18 @@ export default function () {
         const questionsGet = http.get('http://localhost:3000/qa/questions?product_id=13')
         check(questionsGet, {
             'status 200': r => r.status === 200,
-            'transaction time < 400ms': r => r.timings.duration < 400
+            'transaction time < 200ms': r => r.timings.duration < 200,
+            'transaction time < 300ms': r => r.timings.duration < 300
         });
     })
-    // group('check the GET ANSWERS request', () => {
-    //     const answersGet = http.get('http://localhost:3000/qa/questions?product_id=13/answers')
-    //     check(answersGet, {
-    //         'status 200': r => r.status === 200,
-    //         'transaction time < 400ms': r => r.timings.duration < 400
-    //     });
-    // })
+    group('check the GET ANSWERS request', () => {
+        const answersGet = http.get('http://localhost:3000/qa/questions?product_id=13/answers')
+        check(answersGet, {
+            'status 200': r => r.status === 200,
+            'transaction time < 200ms': r => r.timings.duration < 200,
+            'transaction time < 300ms': r => r.timings.duration < 300
+        });
+    })
 
     // check(http.post(questionURL, questionPayload, params), {
     //     'status 201': r => r.status === 201,

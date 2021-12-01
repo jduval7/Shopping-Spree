@@ -9,43 +9,40 @@ const markHelpful = require('../db/index.js').markHelpful;
 const reportQuestion = require('../db/index.js').reportQuestion;
 const markAnswerHelpful = require('../db/index.js').markAnswerHelpful;
 const reportAnswer = require('../db/index.js').reportAnswer;
-const db = require('../db/index.js').db;
+// const db = require('../db/index.js').db;
 const app = express();
 const PORT = 3000;
 app.use(express.json())
 app.use(bodyParser.json());
 
 
-app.get('/qa/questions', function (req, res) {
+app.get('/qa/questions', async function (req, res) {
     // console.log('*** question requested ***')
-
-    db
-        .collection('questions')
-        .aggregate(getQuestionsAndAnswers(13))
+    const db = await mongoose.connection
+        db.collection('questions').aggregate(getQuestionsAndAnswers(parseInt(req.query.question_id)))
         .toArray((err, results) => {
             //console.log(results);
             if (err) {
                 PromiseRejectionEvent(console.log('***error getting questions***'))
             } else {
                 // console.log('***success!!***')
-                res.status(200).send('OK');
+                res.status(200).send(results);
             }
         })
 })
 
-app.get('/qa/questions/:question_id/answers', function (req, res) {
+app.get('/qa/questions/:question_id/answers', async function (req, res) {
     console.log('*** answers requested ***')
 
-    db
-        .collection('answers')
-        .aggregate(getAnswers(parseInt(req.params.question_id)))
+    const db = await mongoose.connection
+        db.collection('answers').aggregate(getAnswers(parseInt(req.params.question_id)))
         .toArray((err, results) => {
             // console.log(results);
             if (err) {
                 PromiseRejectionEvent(console.log('***error getting questions***'))
             } else {
                 console.log('***success!!***')
-                res.status(200).send('OK');
+                res.status(200).send(results);
             }
         })
 })

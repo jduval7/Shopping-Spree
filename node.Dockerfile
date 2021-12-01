@@ -2,7 +2,7 @@ FROM node:14
 
 WORKDIR /src 
 
-COPY questions-API /src/ 
+COPY . /src/ 
 
 RUN npm install 
 

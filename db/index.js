@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://18.191.198.213:3001/questions-answers', {
+  await mongoose.connect('mongodb://18.191.198.213:27017/questions-answers', {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });

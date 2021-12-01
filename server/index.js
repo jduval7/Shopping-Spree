@@ -52,7 +52,7 @@ app.get('/qa/questions/:question_id/answers', async function (req, res) {
     console.log('*** answers requested ***')
 
     const db = await mongoose.connection
-        db.collection('answers').aggregate(getAnswers(parseInt(req.params.question_id)))
+        await db.collection('answers').aggregate(getAnswers(parseInt(req.params.question_id)))
         .toArray((err, results) => {
             // console.log(results);
             if (err) {

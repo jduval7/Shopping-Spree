@@ -9,7 +9,7 @@ const markHelpful = require('../db/index.js').markHelpful;
 const reportQuestion = require('../db/index.js').reportQuestion;
 const markAnswerHelpful = require('../db/index.js').markAnswerHelpful;
 const reportAnswer = require('../db/index.js').reportAnswer;
-// const db = require('../db/index.js').db;
+const db = require('../db/index.js').db;
 const app = express();
 const PORT = 3000;
 app.use(express.json())
@@ -20,8 +20,8 @@ app.get('/qa/questions', async function (req, res) {
 
     console.log('*** question requested ***')
     try{
-        const db = await mongoose.connection
-        const result = await getQuestionsAndAnswers(parseInt(req.query.question_id))
+        
+        const result = getQuestionsAndAnswers(parseInt(req.query.question_id))
         const collection = await db.collection('questions')
         const aggregation = await collection.aggregate(result)
             aggregation

@@ -1,18 +1,19 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+let db;
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://18.191.198.213:27017/questions-answers', {
+  await mongoose.connect('mongodb://18.191.198.213:3001/questions-answers', {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
+  db = await mongoose.connection.asPromise();
 }
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", function () {
+mongoose.connection.on("error", console.error.bind(console, "connection error: "));
+mongoose.connection.once("open", function () {
   console.log("Connected successfully");
 });
 

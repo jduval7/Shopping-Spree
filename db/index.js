@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-let db;
+
 main().catch(err => console.log(err));
 
 async function main() {
@@ -9,8 +9,8 @@ async function main() {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
-  db = await mongoose.connection.asPromise();
 }
+const db = mongoose.connection;
 
 mongoose.connection.on("error", console.error.bind(console, "connection error: "));
 mongoose.connection.once("open", function () {

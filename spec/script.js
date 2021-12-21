@@ -2,17 +2,17 @@ import http from 'k6/http';
 import { sleep, check, group } from 'k6';
 
 export const options = {
-    vus: 100,
+    vus: 200,
     duration: '30s'
 }
 
 export default function () {
-    const questionURL = 'http://localhost:3000/qa/questions'
-    const answerURL = 'http://localhost:3000/qa/questions/62/answers'
-    const helpfulQuestionURL = 'http://localhost:3000/qa/questions/61/helpful'
-    const reportQuestionURL = 'http://localhost:3000/qa/questions/62/report'
-    const helpfulAnswerURL = 'http://localhost:3000/qa/answers/123/helpful'
-    const reportAnswerURL = 'http://localhost:3000/qa/answers/123/report'
+    const questionURL = 'http://13.59.127.235:3000/qa/questions'
+    const answerURL = 'http://13.59.127.235:3000/qa/questions/62/answers'
+    const helpfulQuestionURL = 'http://13.59.127.235:3000/qa/questions/61/helpful'
+    const reportQuestionURL = 'http://13.59.127.235:3000/qa/questions/62/report'
+    const helpfulAnswerURL = 'http://13.59.127.235:3000/qa/answers/123/helpful'
+    const reportAnswerURL = 'http://13.59.127.235:3000/qa/answers/123/report'
     const questionPayload = JSON.stringify({
         "product_id": 13,
         "body": "5555 FAR OUT",
@@ -31,19 +31,21 @@ export default function () {
         }
     };
     group('check the GET QUESTIONS request', () => {
-        const questionsGet = http.get('http://localhost:3000/qa/questions?product_id=13')
+        const questionsGet = http.get('http://13.59.127.235:3000/qa/questions?product_id=13')
         check(questionsGet, {
             'status 200': r => r.status === 200,
             'transaction time < 200ms': r => r.timings.duration < 200,
-            'transaction time < 300ms': r => r.timings.duration < 300
+            'transaction time < 300ms': r => r.timings.duration < 300,
+            'transaction time < 400ms': r => r.timings.duration < 400
         });
     })
     group('check the GET ANSWERS request', () => {
-        const answersGet = http.get('http://localhost:3000/qa/questions?product_id=13/answers')
+        const answersGet = http.get('http://13.59.127.235:3000/qa/questions?product_id=13/answers')
         check(answersGet, {
             'status 200': r => r.status === 200,
             'transaction time < 200ms': r => r.timings.duration < 200,
-            'transaction time < 300ms': r => r.timings.duration < 300
+            'transaction time < 300ms': r => r.timings.duration < 300,
+            'transaction time < 400ms': r => r.timings.duration < 400
         });
     })
 

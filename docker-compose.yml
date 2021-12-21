@@ -22,5 +22,14 @@ services:
           dockerfile: mongo.Dockerfile
         volumes: 
           - turnTo11:/data/db
+    nginx:
+        image: sdc-nginx
+        container_name: sdc-nginx
+        ports:
+          - 3000:3000
+        build:
+          context: .
+          dockerfile: nginx.Dockerfile
+
 volumes:
   turnTo11:

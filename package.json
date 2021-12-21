@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "node --experimental-modules spec/script.js",
     "start": "nodemon server",
     "build": "webpack"
   },
@@ -20,6 +20,7 @@
   "homepage": "https://github.com/HR-Pegasus/questions-answers#readme",
   "dependencies": {
     "axios": "^0.24.0",
+    "docker": "^1.0.0",
     "express": "^4.17.1",
     "mongoose": "^6.0.13",
     "nodemon": "^2.0.15",

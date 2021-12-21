@@ -4,3 +4,4 @@ data/answers.csv
 data/questions.csv
 .data
 SDC.pem
+node_modules

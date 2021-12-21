@@ -44,7 +44,7 @@ To deploy this project..
 
   Run docker-compose up --build node to run the server
 
-  * make sure to change your security groups on ec2 to handle traffic to port you make the 
+  * Make sure to change your security groups on ec2 to handle traffic to the port you make the 
   request to i.e. 3000
 ```
 

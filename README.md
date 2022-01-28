@@ -11,7 +11,7 @@ It is then organized, aggregated, and optimized for use by a front-end applicati
 ## Features
 
 - Structured data using subset patterning to prevent unbounded arrays and memory loss
-- Organized data using aggregation pipeline and indexed database to increase throughput from 12s to over 1500ps locally
+- Organized data using aggregation pipeline and indexed database to increase throughput from 12s to over 10000ps locally
 - Containerized the servers using Docker and load balanced them using NginX
 - Load-tested with K6 and scaled backend microservice to achieve > 1000 rps on AWS EC2 t2.micro
 
